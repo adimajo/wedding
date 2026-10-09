@@ -1,0 +1,28 @@
+{% extends 'guests/email_templates/email_base.html' %}
+{% load wedding %}
+{% block main_image %}{% if hero_image %}
+    <img src="{% email_image hero_image %}" alt="{{ couple }}" border="0" width="100%"
+         style="display: block; padding: 0; color: #666666; width: 100%;" class="img-max">
+{% endif %}{% endblock %}
+{% block main_copy %}
+    <table border="0" width="100%" cellpadding="0" cellspacing="0" align="center">
+        <tbody>
+        {% include "guests/email_templates/copy.html" with text=couple|add:" ont le plaisir de vous inviter" %}
+        {% include "guests/email_templates/details.html" %}
+        <tr>
+            <td>
+                {% if rsvp_deadline %}{% include "guests/email_templates/button.html" with url=rsvp_url label="Répondre avant le "|add:rsvp_deadline %}
+                {% else %}{% include "guests/email_templates/button.html" with url=rsvp_url label="Répondre à l'invitation" %}{% endif %}
+            </td>
+        </tr>
+        {% include "guests/email_templates/copy.html" with text="Ces boutons vous identifient de manière unique, merci de ne pas transférer cet e-mail !" %}
+        <tr>
+            <td>{% include "guests/email_templates/button.html" with url=home_url label="Accéder au site de notre mariage" %}</td>
+        </tr>
+        </tbody>
+    </table>
+{% endblock %}
+{% block footer_content %}
+    En cas de mauvais affichage (notamment sur iPhone), ouvrez cet e-mail dans l'application Gmail ou sur ordinateur.
+    {% if email_mode %}<p><a href="{{ site_url }}">{{ site_url }}</a></p>{% endif %}
+{% endblock %}

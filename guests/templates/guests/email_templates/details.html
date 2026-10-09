@@ -1,0 +1,16 @@
+{# Title, date and place of the event, shared by the campaigns. #}
+<tr>
+    <td style="padding: 20px 0 0 0; font-size: 20px; line-height: 24px; font-family: Helvetica, Arial, sans-serif; color: {{ font_color }};"
+        class="padding-copy" align="center">
+        <b>{{ event.name }}</b>
+    </td>
+</tr>
+{% if event.starts_at or event.location %}
+<tr>
+    <td style="padding: 10px 0 0 0; font-size: 16px; line-height: 22px; font-family: Helvetica, Arial, sans-serif; color: {{ font_color }};"
+        class="padding-copy" align="center">
+        {% if event.starts_at %}{{ event.starts_at|date:"l j F Y" }} à {{ event.starts_at|date:"G\hi" }}<br>{% endif %}
+        {% if event.location_url %}<a href="{{ event.location_url }}">{{ event.location }}</a>{% else %}{{ event.location }}{% endif %}
+    </td>
+</tr>
+{% endif %}

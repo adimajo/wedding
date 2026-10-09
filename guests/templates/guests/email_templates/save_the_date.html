@@ -1,0 +1,26 @@
+{% extends 'guests/email_templates/email_base.html' %}
+{% load wedding %}
+{% block main_image %}{% if hero_image %}
+    <img src="{% email_image hero_image %}" alt="{{ couple }}" border="0" width="100%"
+         style="display: block; padding: 0; color: #666666; width: 100%;" class="img-max">
+{% endif %}{% endblock %}
+{% block main_copy %}
+    <table border="0" width="100%" cellpadding="0" cellspacing="0" align="center">
+        <tbody>
+        <tr>
+            <td style="padding: 20px 0 0 0; font-size: 28px; font-family: Helvetica, Arial, sans-serif; color: {{ font_color }};"
+                class="padding-copy" align="center">Save the date</td>
+        </tr>
+        <tr>
+            <td style="padding: 10px 0 0 0; font-size: 18px; font-family: Helvetica, Arial, sans-serif; color: {{ font_color }};"
+                class="padding-copy" align="center">{{ couple }}</td>
+        </tr>
+        {% include "guests/email_templates/details.html" %}
+        {% include "guests/email_templates/copy.html" with text="Merci de réserver cette date !" %}
+        </tbody>
+    </table>
+{% endblock %}
+{% block footer_content %}
+    <p>Vous pourrez signaler votre participation ou votre absence dans l'invitation qui suivra par e-mail.</p>
+    {% if email_mode %}<p><a href="{{ site_url }}">{{ site_url }}</a></p>{% endif %}
+{% endblock %}
