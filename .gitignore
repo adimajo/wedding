@@ -1,0 +1,30 @@
+# Python / tooling
+__pycache__/
+*.py[cod]
+.venv/
+.coverage
+.ruff_cache/
+.idea/
+*~
+*.sw[op]
+
+# Local state and private data -- never commit
+.env
+.env.*
+!.env.example
+*.sqlite3
+*.sqlite3-*
+static_root/
+content/
+*.csv
+!guests/tests/data/*.csv
+password
+*.log
+hs_err_pid*
+deploy.private.sh
+*.private.*
+*.bundle
+certif/
+*.key
+*.crt
+*.pem

@@ -1,0 +1,9 @@
+wedding
+Copyright 2022-2026 the wedding contributors
+
+This project started from "django-wedding-website" by Cory Zue
+(https://github.com/czue/django-wedding-website, Apache License 2.0) and reuses its overall
+structure (guest model, magic-link e-mail campaigns with RSVP, management commands) and the
+"Creative" Bootstrap theme styling adapted from Start Bootstrap (Apache License 2.0).
+
+It bundles Bootstrap 4.6.2 (MIT, see bigday/static/vendor/bootstrap/LICENSE).
