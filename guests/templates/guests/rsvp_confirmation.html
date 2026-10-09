@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Merci - {{ site_title }}{% endblock %}
+{% block page_content %}
+<div class="container py-5" id="main">
+    <h2>Merci pour votre réponse !</h2>
+    {% if anyone_attending %}
+        <p>On a hâte de vous avoir avec nous ! Retrouvez toutes les informations <a href="{% url 'home' %}">sur le site dédié</a>.</p>
+        {% if support_email %}
+        <p>Si vous avez une question, n'hésitez pas à nous écrire à <a href="mailto:{{ support_email }}">{{ support_email }}</a>.</p>
+        {% endif %}
+    {% else %}
+        <p>Nous sommes tristes que vous ne puissiez pas être avec nous.</p>
+        <p>Nous restons disponibles pour nous retrouver à un autre moment !</p>
+    {% endif %}
+    <p>- {{ couple_names }}</p>
+    <p><a href="{% url 'rsvp' invitation.token %}">Modifier votre réponse</a></p>
+</div>
+{% endblock %}

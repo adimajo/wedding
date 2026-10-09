@@ -1,0 +1,54 @@
+{% load static %}<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="referrer" content="same-origin">
+    <title>{% block title %}{{ site_title }}{% endblock %}</title>
+    <link rel="shortcut icon" href="{% static 'favicon.ico' %}">
+    <link rel="stylesheet" href="{% static 'vendor/bootstrap/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'bigday/css/creative2.css' %}">
+    {% block page_head %}{% endblock %}
+</head>
+<body id="page-top">
+    <nav id="mainNav" class="navbar navbar-expand-md navbar-light bg-light fixed-top">
+        <a class="navbar-brand page-scroll" href="{% url 'home' %}">{{ couple_names }}</a>
+        {% if user.is_authenticated %}
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent"
+                aria-controls="navbarContent" aria-expanded="false" aria-label="Menu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarContent">
+            <ul class="navbar-nav ml-auto">
+                {% block nav_links %}{% endblock %}
+                {% if user.is_staff %}
+                <li class="nav-item"><a class="nav-link" href="{% url 'dashboard' %}">Tableau de bord</a></li>
+                {% endif %}
+                <li class="nav-item">
+                    <form method="post" action="{% url 'logout' %}" class="form-inline">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-sm btn-outline-secondary">Se déconnecter</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+        {% endif %}
+    </nav>
+    {% if header_image_url %}<header id="main-header" style="background-image: url('{{ header_image_url }}'); background-size: {{ header_image_fit }}"></header>{% else %}<div style="height: 56px"></div>{% endif %}
+    {% if messages %}
+    <div class="container mt-3">
+        {% for message in messages %}
+        <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags|default:'info' }}{% endif %}">{{ message }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% block welcome %}{% endblock %}
+    {% block page_content %}{% endblock %}
+    {% block contact %}{% include "partials/contact.html" %}{% endblock %}
+    {% include "partials/footer.html" %}
+    <script src="{% static 'bigday/js/footer.js' %}"></script>
+    <script src="{% static 'bigday/js/nav.js' %}"></script>
+    {% block page_js %}{% endblock %}
+</body>
+</html>

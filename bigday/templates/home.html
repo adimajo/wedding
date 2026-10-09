@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load static wedding %}
+{% block nav_links %}
+    {% for event in events %}
+    <li class="nav-item"><a class="nav-link page-scroll" href="#event-{{ event.slug }}">{{ event.name }}</a></li>
+    {% endfor %}
+    {% if gift_pot_url %}<li class="nav-item"><a class="nav-link page-scroll" href="#gifts">Cadeaux</a></li>{% endif %}
+    {% include "partials/nav_extra.html" %}
+    {% if lychee_enabled %}<li class="nav-item"><a class="nav-link" href="{% url 'photos' %}">Photos</a></li>{% endif %}
+    <li class="nav-item"><a class="nav-link page-scroll" href="#contact">Contact</a></li>
+{% endblock %}
+{% block welcome %}{% include "partials/welcome.html" %}{% endblock %}
+{% block page_content %}
+{% for event in events %}{% event_section event %}{% endfor %}
+{% include "partials/gifts.html" %}
+{% include "partials/story.html" %}
+{% endblock %}
+{% block page_js %}<script src="{% static 'bigday/js/countdown.js' %}"></script>{% endblock %}

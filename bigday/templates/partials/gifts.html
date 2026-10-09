@@ -1,0 +1,15 @@
+{# Default gifts section, shown only when GIFT_POT_URL is set. Override with partials/gifts.html in the content overlay. #}
+{% if gift_pot_url %}
+<section id="gifts" class="bg-primary">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h2 class="section-heading">Cadeaux</h2>
+                <hr class="light">
+                <p>Votre présence sera déjà un très beau cadeau ! Si vous souhaitez malgré tout nous faire plaisir,
+                    vous pouvez contribuer à <a href="{{ gift_pot_url }}" rel="noopener noreferrer">notre cagnotte</a>.</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}

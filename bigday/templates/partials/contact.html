@@ -1,0 +1,15 @@
+{# Default contact section. Override by creating partials/contact.html in the content overlay directory. #}
+{% if support_email %}
+<section id="contact" class="bg-dark">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h2 class="section-heading">Contact</h2>
+                <hr class="primary">
+                <p>Pour toute question, n'hésitez pas à nous contacter !</p>
+                <p><a href="mailto:{{ support_email }}">{{ support_email }}</a></p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}

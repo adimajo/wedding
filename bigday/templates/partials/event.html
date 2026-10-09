@@ -1,0 +1,28 @@
+{# Default section of an event. Override one event with partials/event_<slug>.html in the content overlay. #}
+<section id="event-{{ event.slug }}" class="bg-white">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 mx-auto">
+                <h2 class="section-heading text-center">{{ event.name }}</h2>
+                <hr class="primary">
+                {% if event.starts_at %}
+                <p class="text-center" data-countdown="{{ event.starts_at|date:'c' }}"
+                   data-done="Merci beaucoup pour votre présence parmi nous !"></p>
+                {% endif %}
+                <dl class="row lead">
+                    {% if event.starts_at %}
+                    <dt class="col-sm-3">Quand</dt>
+                    <dd class="col-sm-9">{{ event.starts_at|date:"l j F Y" }} à {{ event.starts_at|date:"G\hi" }}</dd>
+                    {% endif %}
+                    {% if event.location %}
+                    <dt class="col-sm-3">Où</dt>
+                    <dd class="col-sm-9">
+                        {% if event.location_url %}<a href="{{ event.location_url }}" rel="noopener noreferrer">{{ event.location }}</a>{% else %}{{ event.location }}{% endif %}
+                    </dd>
+                    {% endif %}
+                </dl>
+                {% if event.description %}<div>{{ event.description|linebreaks }}</div>{% endif %}
+            </div>
+        </div>
+    </div>
+</section>

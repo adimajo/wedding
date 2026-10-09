@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}{{ event.name }} - {{ site_title }}{% endblock %}
+{% block page_content %}
+<div class="container py-5" id="invitation-body">
+    <div class="row">
+        <section class="col-md-5 text-center mb-4">
+            <h2>{{ event.name }}</h2>
+            {% if event.starts_at %}<p class="lead">{{ event.starts_at|date:"l j F Y" }}</p>{% endif %}
+            {% if event.location %}<p class="lead">{{ event.location }}</p>{% endif %}
+            {% if invitation.guest.family %}<p class="lead">{{ invitation.guest.family.name }}</p>{% endif %}
+        </section>
+        <section class="col-md-7">
+            <form method="post" novalidate>
+                {% csrf_token %}
+                <h2 class="text-center">Réponse{% if rsvp_deadline %} avant le {{ rsvp_deadline }}{% endif %}</h2>
+                {% for form in forms %}
+                <div class="rsvp-guest border-bottom pb-3 mb-3">
+                    {% if form.non_field_errors %}<div class="alert alert-danger">{{ form.non_field_errors }}</div>{% endif %}
+                    <p class="mb-1"><strong>{{ form.invitation.guest.name }}</strong></p>
+                    {% for error in form.attending.errors %}<div class="text-danger">{{ error }}</div>{% endfor %}
+                    {% for radio in form.attending %}
+                    <div class="form-check form-check-inline">
+                        {{ radio.tag }}
+                        <label class="form-check-label" for="{{ radio.id_for_label }}">{{ radio.choice_label }}</label>
+                    </div>
+                    {% endfor %}
+                    {% for field in form.meal_fields %}
+                    <div class="meal-choices mt-3">
+                        <p class="mb-1">{{ field.label }}</p>
+                        {% for error in field.errors %}<div class="text-danger">{{ error }}</div>{% endfor %}
+                        {% for radio in field %}
+                        <div class="form-check">
+                            {{ radio.tag }}
+                            <label class="form-check-label" for="{{ radio.id_for_label }}">{{ radio.choice_label }}</label>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endfor %}
+                <div class="form-group">
+                    <label for="id_comments" class="sr-only">Questions / commentaires</label>
+                    <input type="text" name="comments" id="id_comments" class="form-control"
+                           placeholder="Questions / commentaires" maxlength="2000"
+                           value="{{ comment_form.comments.value|default_if_none:'' }}">
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary">Valider</button>
+                </div>
+            </form>
+        </section>
+    </div>
+</div>
+{% endblock %}
+{% block page_js %}<script src="{% static 'bigday/js/rsvp.js' %}"></script>{% endblock %}

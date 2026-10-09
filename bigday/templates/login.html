@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block title %}Connexion{% endblock %}
+{% block page_content %}
+<div class="container py-5">
+    <p>
+        Si vous avez reçu un email de notre part, cliquez sur le lien qu'il contient : il vous identifie
+        automatiquement. Si vous avez déjà créé un compte, connectez-vous ci-dessous ;
+        en cas d'oubli, <a href="{% url 'password_reset' %}">réinitialisez votre mot de passe</a>.
+        {% if registration_enabled %}Sinon, vous pouvez <a href="{% url 'register' %}">créer un compte</a>.{% endif %}
+    </p>
+    {% if form.errors %}
+        <div class="alert alert-danger">Email ou mot de passe incorrect.</div>
+    {% endif %}
+    <form method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <input type="hidden" name="next" value="{{ next }}">
+        <button type="submit" class="btn btn-primary">Se connecter</button>
+    </form>
+    <p class="mt-4 text-muted">
+        Site hébergé sur notre propre serveur. Les données sont supprimées quelques mois après le mariage.
+        Seuls des cookies techniques (session et sécurité) sont utilisés, aucun traceur.
+    </p>
+</div>
+{% endblock %}

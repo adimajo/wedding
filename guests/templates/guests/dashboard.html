@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Tableau de bord{% endblock %}
+{% block page_content %}
+<div class="container py-5" id="main">
+    <h1>Tableau de bord</h1>
+    <p>
+        <a href="{% url 'export_guests' %}">Exporter les réponses (CSV)</a> ·
+        <a href="{% url 'admin:index' %}">Administration</a>
+    </p>
+    {% for item in events %}
+    <section class="mb-5">
+        <h2>{{ item.event.name }}</h2>
+        <table class="table table-striped">
+            <tr><td>Présents</td><td>{{ item.attending }} <span class="text-muted">/ {{ item.total }} invités</span></td></tr>
+            <tr><td>Absents</td><td>{{ item.declined }}</td></tr>
+            <tr><td>Sans réponse</td><td>{{ item.pending }}</td></tr>
+            <tr><td>Invitation non ouverte</td><td>{{ item.unopened.count }}</td></tr>
+        </table>
+        <h3>E-mails de test (envoyés à vous seul)</h3>
+        {% for campaign in campaigns %}
+        <form method="post" action="{% url 'campaign_test' campaign.key item.event.slug %}" class="d-inline">{% csrf_token %}
+            <button class="btn btn-outline-secondary btn-sm" type="submit">{{ campaign.label }}</button>
+        </form>
+        <a class="btn btn-link btn-sm" href="{% url 'campaign_preview' campaign.key item.event.slug %}">aperçu</a>
+        {% endfor %}
+        <div class="row mt-4">
+            <div class="col-lg-4">
+                <h3>Menus choisis</h3>
+                <ul>{% for row in item.meals %}<li>{{ row.option.label }} : {{ row.count }}</li>{% empty %}<li class="text-muted">Aucun menu défini.</li>{% endfor %}</ul>
+                <h3>Présents sans menu</h3>
+                <ul>{% for invitation in item.without_meal %}<li>{{ invitation.guest.name }}</li>{% empty %}<li class="text-muted">Personne.</li>{% endfor %}</ul>
+            </div>
+            <div class="col-lg-4">
+                <h3>Invitation non ouverte</h3>
+                <ul>{% for invitation in item.unopened %}<li>{{ invitation.guest.name }}{% if invitation.guest.email %} <span class="text-muted">{{ invitation.guest.email }}</span>{% endif %}</li>{% empty %}<li class="text-muted">Personne.</li>{% endfor %}</ul>
+            </div>
+            <div class="col-lg-4">
+                <h3>Ouverte, sans réponse</h3>
+                <ul>{% for invitation in item.unanswered %}<li>{{ invitation.guest.name }}</li>{% empty %}<li class="text-muted">Personne.</li>{% endfor %}</ul>
+            </div>
+        </div>
+    </section>
+    {% empty %}
+    <p class="text-muted">Aucun événement : créez-en dans l'<a href="{% url 'admin:guests_event_add' %}">administration</a>.</p>
+    {% endfor %}
+</div>
+{% endblock %}
