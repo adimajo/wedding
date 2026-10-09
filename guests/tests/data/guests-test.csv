@@ -1,0 +1,6 @@
+Family,First Name,Last Name,Is Child?,E-mail,invited_ceremony,invited_party
+The Starks,Ned,Stark,n,ned@winterfell.example,y,y
+The Starks,Catelyn,Stark,n,CATELYN@winterfell.example,y,y
+The Starks,Arya,Stark,y,,y,n
+The Lannisters,Tyrion,Lannister,n,tyrion@casterly.example,n,y
+,Bronn,,n,not-an-email,y,y
