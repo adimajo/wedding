@@ -1,0 +1,34 @@
+# Certificates are obtained with the TLS-ALPN-01 challenge, which only needs port 443 to be reachable
+# from the internet (no port 80, no DNS API token).
+{
+	# Set ACME_CA to https://acme-staging-v02.api.letsencrypt.org/directory to test without rate limits.
+	acme_ca {$ACME_CA:https://acme-v02.api.letsencrypt.org/directory}
+}
+
+{$SITE_HOST} {
+	tls {
+		issuer acme {
+			disable_http_challenge
+		}
+	}
+	encode zstd gzip
+
+	# Optional photo gallery (Lychee) running on another machine, published under /photos/.
+	# Uncomment and set the address of the gallery, then set LYCHEE_URL=https://<SITE_HOST>/photos in the app settings
+	# (and LYCHEE_API_URL=<the same internal address> so that the app does not go through the internet).
+	#handle_path /photos/* {
+	#	request_body {
+	#		max_size 100MB
+	#	}
+	#	reverse_proxy http://192.168.1.20 {
+	#		header_up Host {host}
+	#	}
+	#}
+
+	handle {
+		request_body {
+			max_size 1MB
+		}
+		reverse_proxy wedding:8000
+	}
+}

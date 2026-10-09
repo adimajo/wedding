@@ -1,0 +1,17 @@
+.git
+.github
+.venv
+.env
+.env.*
+!.env.example
+content
+static_root
+*.sqlite3
+*.log
+guests*.csv
+__pycache__
+*.pyc
+.idea
+deploy
+docs
+README.md
